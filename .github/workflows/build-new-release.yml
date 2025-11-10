@@ -3,6 +3,7 @@ name: Build New Release
 on:
   pull_request:
   push:
+  workflow_dispatch:
   
 env:
   TIZEN_STUDIO_VER: 4.5.1
@@ -17,7 +18,7 @@ jobs:
       matrix:
         include:
           - artifact_name: Jellyfin
-            web_tag: v10.11.1
+            web_ref: release-10.11.z
 
 
     steps:
@@ -62,18 +63,16 @@ jobs:
           path: 'jellyfin-tizen'
           ref: master
 
-      - name: Clone jellyfin-web
+      - name: Clone hacked jellyfin-web
         uses: actions/checkout@v5
         with:
-          repository: jellyfin/jellyfin-web
+          repository: kinke/jellyfin-web
           path: 'jellyfin-web'
-          ref: ${{ matrix.web_tag }}
+          ref: ${{ matrix.web_ref }}
           
       - name: Build jellyfin-web
         run: |
           cd jellyfin-web
-
-          # TODO: patch out 32-streams limit
 
           npm ci --no-audit
           USE_SYSTEM_FONTS=1 npm run build:production
