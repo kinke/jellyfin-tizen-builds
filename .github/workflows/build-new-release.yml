@@ -56,12 +56,12 @@ jobs:
         #env:
           #CERTIFICATE_CONTENT: ${{ secrets.TIZEN_CERT }}
     
-      - name: Clone jellyfin-tizen
+      - name: Clone hacked jellyfin-tizen
         uses: actions/checkout@v5
         with:
-          repository: jellyfin/jellyfin-tizen
+          repository: kinke/jellyfin-tizen
           path: 'jellyfin-tizen'
-          ref: master
+          ref: avplay
 
       - name: Clone hacked jellyfin-web
         uses: actions/checkout@v5
