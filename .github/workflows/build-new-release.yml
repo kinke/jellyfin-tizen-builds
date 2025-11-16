@@ -75,7 +75,7 @@ jobs:
           cd jellyfin-web
 
           npm ci --no-audit
-          USE_SYSTEM_FONTS=1 npm run build:development
+          USE_SYSTEM_FONTS=1 npm run build:production
 
       - name: Build jellyfin-tizen
         id: buildMaster
