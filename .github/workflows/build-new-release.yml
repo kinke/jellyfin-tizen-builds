@@ -18,7 +18,7 @@ jobs:
       matrix:
         include:
           - artifact_name: Jellyfin
-            web_ref: release-10.11.z
+            web_ref: avplay
 
 
     steps:
@@ -61,7 +61,7 @@ jobs:
         with:
           repository: kinke/jellyfin-tizen
           path: 'jellyfin-tizen'
-          ref: avplay
+          ref: avplay2
 
       - name: Clone hacked jellyfin-web
         uses: actions/checkout@v5
@@ -75,7 +75,7 @@ jobs:
           cd jellyfin-web
 
           npm ci --no-audit
-          USE_SYSTEM_FONTS=1 npm run build:production
+          USE_SYSTEM_FONTS=1 npm run build:development
 
       - name: Build jellyfin-tizen
         id: buildMaster
