@@ -21,7 +21,7 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          - web_ref: release-10.11.z
+          - web_ref: release-12.z
 
 
     steps:
@@ -31,7 +31,7 @@ jobs:
       - name: Setup Node.js environment
         uses: actions/setup-node@v7
         with:
-          node-version: v23.11.1
+          node-version: v24.18.0
           
       - name: Install Needed packages
         run: sudo apt install expect
