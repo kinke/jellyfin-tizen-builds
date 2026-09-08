@@ -1,52 +1,86 @@
 # jellyfin-tizen-builds
+
 The purpose of this repository is to automatically build the most up-to-date version of jellyfin-tizen.
 
 For real-time-ish communications, you can join my [Discord server](https://discord.gg/DGnRQUJ).
 
+## Related Projects
+This repository only handles the automated building and packaging of the Jellyfin Tizen app. The following upstream projects are responsible for the actual implementation:
+
+| Project | Description |
+|---------|-------------|
+| [jellyfin/jellyfin-tizen](https://github.com/jellyfin/jellyfin-tizen) | The Samsung Tizen wrapper app that this repository builds |
+| [jellyfin/jellyfin-web](https://github.com/jellyfin/jellyfin-web) | The Jellyfin web client bundled inside the app |
+
+> **Note:** If you experience runtime issues with the app itself (e.g. playback problems, UI bugs, missing features), please check and report those issues in the relevant upstream repository above rather than here. This repository only produces the build artifacts and is not the right place to address such issues.
+
 ## Versions
-| File name    | Description                                                                                                               |
-|--------------|---------------------------------------------------------------------------------------------------------------------------|
-| Jellyfin.wgt | Built with the latest stable release of jellyfin-web                                                                      |
-| 10.11.z      | Built with the bleeding edge of the branch for the 10.11.z releases                                                       |
-| 10.10.z      | Built with the bleeding edge of the branch for the 10.10.z releases                                                       |
-| master       | Built with the latest potentially unstable changes to jellyfin-web code (this will always be the newest possible version) |
-| TrueHD       | TrueHD support is enabled (whether it works or not might depend on TV model)                                              |
-| secondary    | Built with the latest stable release of jellyfin-web and a different app ID to allow having a second account signed in    |
-| OblongIcon   | Use oblong type icon for TVs required it.  See more detail: jellyfin/jellyfin-tizen#171                                   |
-| GrayFix      | Potentially fixes an issue where the bars over and under the video are gray.  See more detail: jellyfin/jellyfin-tizen#65 |
-| SmartHub     | Add Samsung Smart Hub Preview integration. See more detail: jellyfin/jellyfin-tizen#318                                   |
+
+| File name    | Description                                                                                                                       |
+|--------------|-----------------------------------------------------------------------------------------------------------------------------------|
+| Jellyfin.wgt | Built with the latest stable release of jellyfin-web                                                                              |
+| 10.11.z      | Built with the bleeding edge of the branch for the 10.11.z releases                                                               |
+| 10.10.z      | Built with the bleeding edge of the branch for the 10.10.z releases                                                               |
+| master       | Built with the latest potentially unstable changes to jellyfin-web code (this will always be the newest possible version)         |
+| secondary    | Built with the latest stable release of jellyfin-web and a different app ID to allow having a second account signed in            |
+| OblongIcon   | Use oblong type icon for TVs required it.  See more detail: jellyfin/jellyfin-tizen#171                                           |
+| GrayFix      | Potentially fixes an issue where the bars over and under the video are gray.  See more detail: jellyfin/jellyfin-tizen#65         |
+| SmartHub     | Add Samsung Smart Hub Preview integration. See more detail: jellyfin/jellyfin-tizen#318                                           |
+| OSA          | This combines the OblongIcon and SmartHub builds as well as experimental support for the AVPlay player for improved codec support |
 
 *Disclaimer: I don't have many success stories with TVs older than 2018, but a few people in my Discord server have reported it working for their 2015 and 2016 TVs with the `10.8.z` version. This version is not included in new releases, but can be found [here](https://github.com/jeppevinkel/jellyfin-tizen-builds/releases/tag/2024-10-27-1821)*
 
+## Compatibility
+
+There is a markdown file at [COMPATIBILITY.md](COMPATIBILITY.md) with the purpose of creating a list of TVs that are known to either work or not work.
+
+This list is intended to be community maintained, and anyone is free to create new additions for the list as you discover new TVs that either do or don't work.
+
 ## Installation
-For a GUI installer that automates most of the process, check out this program mady by PatrickSt1991 [PatrickSt1991/Samsung-Jellyfin-Installer](https://github.com/PatrickSt1991/Samsung-Jellyfin-Installer).  
-For a one step install process using Docker, check out this guide made by Georift [Georift/install-jellyfin-tizen](https://github.com/Georift/install-jellyfin-tizen).  
+
+For a GUI installer that automates most of the process, check out this program made by PatrickSt1991 [Apps2Samsung/Apps2Samsung](https://github.com/Apps2Samsung/Apps2Samsung).  
+For a one-step install process using Docker, check out this guide made by Georift [Georift/install-jellyfin-tizen](https://github.com/Georift/install-jellyfin-tizen).  
 *I have no affiliation with these installers and I can't provide support related to them. Both of the installers directly use the builds I provide here.*
 
 ### Prerequisites
+
 - Tizen Studio with CLI (https://developer.tizen.org/development/tizen-studio/download)
 - Visual C++ Redistributable Packages for VS 2013 x86 and amd64 (https://www.microsoft.com/en-US/download/details.aspx?id=40784)
 - One of the .wgt files from a release (https://github.com/jeppevinkel/jellyfin-tizen-builds/releases)
 
 ### Getting Started
+
 1. Install prerequisites. Yup nothing else needed.
 
 ### Deploy to TV
+
 1. Activate Developer Mode on TV (https://developer.samsung.com/tv/develop/getting-started/using-sdk/tv-device).
 2. Connect to TV with Device Manager from Tizen Studio. Typically located in `C:\tizen-studio\tools\device-manager\bin`
 3. Install the package.  
    This command assumes the file you are installing is called `Jellyfin.wgt`. Simply change it to `Jellyfin-prerelease.wgt` if you are installing the prerelease version. Otherwise you can also just rename the file.
+
 ```bash
 c:\tizen-studio\tools\ide\bin\tizen.bat install -n Jellyfin.wgt -t <the name of your tv>
 ```
+
 On Mac the command is instead
+
 ```bash
 $HOME/tizen-studio/tools/ide/bin/tizen install -n Jellyfin.wgt -t <the name of your tv>
 ```
+
 typically located in (C:\tizen-studio\tools\ide\bin)
 > You can find your tv name in Device Manager from Tizen Studio or using `sdb devices`.  
 
 ## Common issues
+
+### Runtime issues with the app (playback, UI, features)?
+This repository is only responsible for building and packaging the app, it does not control the app's behaviour or the web client (with exception of features specifically mentioned in specialty builds).
+
+- For issues with the **Tizen wrapper** (crashes, app-level bugs, Tizen-specific behaviour): report to [jellyfin/jellyfin-tizen](https://github.com/jellyfin/jellyfin-tizen/issues)
+- For issues with the **web client** (UI bugs, playback issues, missing features): report to [jellyfin/jellyfin-web](https://github.com/jellyfin/jellyfin-web/issues)
+
+Please check the existing issues in those repositories before opening a new one, as your problem may already be known and tracked there.
 
 ### Install failing due to wrong certificate?
 
@@ -55,22 +89,24 @@ This can be solved by uninstalling the app prior to attempting to install this v
 
 Removing it from the app bar is not the same as removing it from the device, you need to actually go into the applications menu and remove it from there.
 
-
 ### Where do I find `sdb`?
 
-If you installed Tizen Studio with CLI correctly, then you should find the `sdb` tool: 
+If you installed Tizen Studio with CLI correctly, then you should find the `sdb` tool:
 
 On Windows
+
 ```bash
 c:\tizen-studio\tools\sdb
 ```
 
 On Mac
+
 ```bash
 $HOME/tizen-studio/tools/sdb
 ```
 
 On Linux
+
 ```bash
 ~/tizen-studio/tools/sdb
 ```
@@ -85,21 +121,25 @@ If you enabled developer mode on your TV correctly, then you need to do the foll
 Once you have the IP address of your TV connect to it by running this command:
 
 On Windows
+
 ```bash
 c:\tizen-studio\tools\sdb connect <IP of your TV>
 ```
 
 On Mac
+
 ```bash
 $HOME/tizen-studio/tools/sdb connect <IP of your TV>
 ```
 
 On Linux
+
 ```bash
 ~/tizen-studio/tools/sdb connect <IP of your TV>
 ```
 
 You should see a message like:
+
 ```bash
 connecting to <IP of your TV>:26101 ...
 connected to <IP of your TV>:26101

@@ -1,3 +1,7 @@
+# This Source Code Form is subject to the terms of the Mozilla Public
+# License, v. 2.0. If a copy of the MPL was not distributed with this
+# file, You can obtain one at https://mozilla.org/MPL/2.0/.
+
 name: Build New Release
 
 on:
@@ -22,15 +26,13 @@ jobs:
 
 
     steps:
-      - run: env
-      
       - name: 'Checkout'
-        uses: actions/checkout@v5
+        uses: actions/checkout@v7
       
       - name: Setup Node.js environment
-        uses: actions/setup-node@v6
+        uses: actions/setup-node@v7
         with:
-          node-version: 'v23.11.1'
+          node-version: v23.11.1
           
       - name: Install Needed packages
         run: sudo apt install expect
@@ -57,14 +59,14 @@ jobs:
           #CERTIFICATE_CONTENT: ${{ secrets.TIZEN_CERT }}
     
       - name: Clone jellyfin-tizen
-        uses: actions/checkout@v5
+        uses: actions/checkout@v7
         with:
           repository: jellyfin/jellyfin-tizen
           path: 'jellyfin-tizen'
           ref: master
 
       - name: Clone hacked jellyfin-web
-        uses: actions/checkout@v5
+        uses: actions/checkout@v7
         with:
           repository: kinke/jellyfin-web
           path: 'jellyfin-web'
@@ -107,7 +109,7 @@ jobs:
         run: cat ./tizen-studio-data/cli/logs/cli.log
 
       - name: Upload Artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: ${{ matrix.artifact_name }}
           path: jellyfin-tizen/release/${{ matrix.artifact_name }}.wgt
